@@ -1,23 +1,19 @@
 "use strict";
-require('dotenv').config()
+
 const path = require('path');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000
-
+require('dotenv').config()
 
 
 
 mongoose.set('strictQuery', false)
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: 'test', 
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    const conn = await mongoose.connect(process.env.MONGO_URI);
     console.log(`MongoDb est connecter: ${conn.connection.host}`);
   }catch (error){
     console.log(error)
