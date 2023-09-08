@@ -1,5 +1,5 @@
 "use strict";
-
+const http = require('http');
 const path = require('path');
 const express = require('express');
 const app = express();
@@ -10,7 +10,8 @@ require('dotenv').config()
 
 
 
-mongoose.set('strictQuery', false)
+mongoose.set('strictQuery', false);
+
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
@@ -24,11 +25,15 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
-connectDB().then(() =>{
-  app.listen(PORT, () => {
+
+// Integrate MongoDB connection with the HTTP server
+const server = http.createServer(app);
+
+connectDB().then(() => {
+  server.listen(PORT, () => {
     console.log(`Le serveur écoute sur le port ${PORT}`);
   });
-})
+});
 
 
 
