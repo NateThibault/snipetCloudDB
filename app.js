@@ -13,13 +13,17 @@ require('dotenv').config()
 mongoose.set('strictQuery', false)
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      dbName: 'test',
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(`MongoDb est connecter: ${conn.connection.host}`);
-  }catch (error){
-    console.log(error)
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
     process.exit(1);
-  } 
-}
+  }
+};
 connectDB().then(() =>{
   app.listen(PORT, () => {
     console.log(`Le serveur écoute sur le port ${PORT}`);
