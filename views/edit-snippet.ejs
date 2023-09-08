@@ -1,0 +1,57 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/post.css">
+</head>
+
+<body>
+    <header>
+        <%- include('includes/navigation.ejs') %>
+    </header>
+    
+
+    <main>
+      <h1 class="text-center inkFreeFamily mt-5">Modifier le snippet </h1>
+        <div class="container py-5">
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+
+              <form action="/admin/edit-snippet/<%= snippet._id %>" method="POST" class="bg-dark text-white">
+
+                <% if (errorMessage) { %>
+                  <div class="errors alert alert-danger">
+                      Veuillez ajouter un titre !
+                  </div>
+                <% } %>
+
+                <div class="form-group">
+                    <label for="title" class="inkFreeFamily font-size">Title</label>
+                    <input type="text" class="form-control" name="title" value="<%= snippet.title %>" style="font-weight: bold">
+
+                    <% if (errorMessage && errorMessage.title) { %>
+                      <div class="invalid-feedback"><%= errorMessage.title.message %></div>
+                    <% } %>
+                </div>
+
+                <div class="form-group">
+                    <label for="url" class="inkFreeFamily font-size">URL</label>
+                    <input type="text" class="form-control" name="url" value="<%= snippet.url %>" style="font-weight: bold">
+                </div>
+
+                <div class="form-group">
+                    <label for="content" class="inkFreeFamily font-size">Description</label>
+                    <textarea class="form-control auto-height" name="content" style="font-weight: bold;"><%= snippet.content %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tags" class="inkFreeFamily font-size">Tag → (séparer les mots par un espace)</label>
+                    <input type="text" class="form-control mb-4" name="tags"  value="<%= snippet.tags.map(tag => tag.replace(',', ' ')).join(' ') %>" style="font-weight: bold">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                <a href="/" class="btn btn-danger float-right">Annuler</a>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </main>
+<%- include('includes/end.ejs') %>

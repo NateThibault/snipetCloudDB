@@ -1,0 +1,55 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/post.css">
+</head>
+
+<body>
+  <header>
+      <%- include('includes/navigation.ejs') %>
+  </header>
+
+  <main>
+    <h1 class="text-center inkFreeFamily mt-5">Ajouter un snippet </h1>
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6 text-white">
+          <form action="/admin/add-snippet" method="POST" class="bg-dark text-white">
+            <% if (errorMessage) { %>
+              <div class="errors alert alert-danger">
+                  <%= errorMessage %>
+              </div>
+            <% } %>
+          
+            <div class="form-group">
+              <label for="title" class="inkFreeFamily font-size">Title</label>
+              <input type="text" class="form-control" name="title" value="<%= product ? product.title : '' %>" style="font-weight: bold">
+              <% if (errorMessage && errorMessage.title) { %>
+                <div class="invalid-feedback"><%= errorMessage.title.message %></div>
+              <% } %>
+            </div>
+          
+            <div class="form-group">
+              <label for="url" class="inkFreeFamily font-size">URL</label>
+              <input type="text" class="form-control" name="url" value="<%= product ? product.url : '' %>" style="font-weight: bold">
+            </div>
+          
+            <div class="form-group">
+              <label for="content" class="inkFreeFamily font-size">Content</label>
+              <textarea class="form-control" name="content" rows="5" style="font-weight: bold"><%= product ? product.content : '' %></textarea>
+            </div>
+          
+            <div class="form-group">
+              <label for="tags" class="inkFreeFamily font-size">Tags</label>
+              <input type="text" class="form-control" name="tags" value="<%= product && product.tags ? product.tags : '' %>" style="font-weight: bold">
+            </div>            
+            
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="/" class="btn btn-danger float-right">Annuler</a>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </main>
+      
+
+<%- include('includes/end.ejs') %>

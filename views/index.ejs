@@ -1,0 +1,106 @@
+<%- include('includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/post.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <header>
+        <%- include('includes/navigation.ejs') %>
+    </header>
+    <main>
+        <!-- Boucle pour afficher tous les tags de tous les snippets disponibles -->
+        <div class="container bg-dark rounded mt-3">
+            <h2 class="text-center inkFreeFamily colorBlue p-3">Rechercher par tag 
+                <a href="/">
+                    <img src="../images/clear-filter.png" class="ml-2 imgScale" width="30px" height="30px" title="Désactiver le filtre">
+                </a>
+            </h2>
+            <div class="form-check form-check-inline d-flex justify-content-center mb-3">
+                <!-- Va chercher toute les tags possible et le met dans un tableau et les places en ordre alphabétique  -->
+                <% const tagFilter = Array.from(new Set(snippet.flatMap(p => p.tags)));
+                tagFilter.sort((a, b) => a.localeCompare(b)); %>
+                <div class="d-flex flex-wrap justify-content-center">
+                    <!-- Boucle pour filtrer le tag choisi et afficher seulement les snippets qui ont ce tag  -->
+                    <% for (let tag of tagFilter) { %>
+                        <a href="/tag/<%= tag %>">
+                          <button class="btn btn-light rounded-pill mr-3 mb-3 tag-button <%= selectedTag === tag ? 'selected' : '' %>" id="<%= tag %>" value="<%= tag %>"><%= tag %></button>
+                        </a>
+                      <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boucle pour afficher tous les snippets disponibles (sans le filtre de tag) -->
+        <h1 class="text-center mt-5 inkFreeFamily font-sizeTitlte"><%= indexTitleH1 %></h1>
+        <% if (snippet.length > 0) { %>
+            <div class="row">
+                <div class="col-md-4 mt-3 mx-auto">
+                    <% for (let snippets of snippet) { %>
+                    <article class="card mb-5 bg-dark text-white">
+                        <header class="h1 card-title text-center text-dark mb-5 mt-4">
+                            <% if (snippets.url) { %>
+                              <a href="<%= snippets.url.startsWith('http') ? snippets.url : 'https://' + snippets.url %>" target="_blank">
+                                <h1 class="card-text inkFreeFamily font-sizeCard linkHover" ><u><%= snippets.title %></u></h1>
+                              </a>
+                            <% } else { %>
+                              <h1 class="card-text text-white inkFreeFamily font-sizeCard"><%= snippets.title %></h1>
+                            <% } %>
+                        </header> 
+                        <div class="card__content mb-4 paddingLeft">
+                            <strong class="inkFreeFamily font-sizeCard colorBlue">Description</strong><p><%= snippets.content %></p>
+                        </div>
+                        <div class="card__content mb-2 paddingLeft">
+                            <strong class="inkFreeFamily font-sizeCard colorBlue">URL :</strong><p><%= snippets.url %></p>
+                        </div>
+                        <div class="card__content mb-2 paddingLeft">
+                                <% let date = new Date(snippets.createdAt); %>
+                                <% let dateString = date.toString(); %>
+                            <strong class="inkFreeFamily font-sizeCard colorBlue">Date de création :</strong><p><%= dateString.replace(/GMT-0400 \(heure avancée de l’Est\)/, '') %></p>
+                        </div>
+                        <div class="card__content paddingLeft">
+                                <% let dateEdit = new Date(snippets.updatedAt); %>
+                                <% let dateStringEdit = dateEdit.toString(); %>
+                            <strong class="inkFreeFamily font-sizeCard colorBlue">Dernière modification :</strong> <p><%= dateStringEdit.replace(/GMT-0400 \(heure avancée de l’Est\)/, '') %></p>
+                        </div>
+                        <div class="d-flex flex-wrap mt-5 paddingLeft">
+                            <% for (let i = 0; i < snippets.tags.length; i++) { %>
+                                <button class="btn btn-light rounded-pill mr-3 mb-3"> <%= snippets.tags[i] %></button>
+                            <% } %>
+                        </div>
+                        <div class="btn-group mt-2" role="group">
+                            <a href="/admin/edit-snippet/<%= snippets._id %>" class="btn btn-primary buttonEdit">Modifier</a>
+                            <button onclick="if(confirm('Êtes-vous sûr de vouloir supprimer ce snippet : <%= snippets.title %> ?'  )) window.location.href='/delete-snippet/<%= snippets._id %>?_method=DELETE';" class="btn btn-danger buttonDelete">Supprimer</button>
+                        </div>
+                    </article>
+                    <% } %>
+                </div>
+            </div>
+        <!-- Message si aucun snippet est créé -->    
+        <% } else { %>
+        <h3 class="text-center mt-5">Aucun snippet disponible !</h3>
+        <% } %>
+    </main>
+
+    <script>
+        // Get all tag buttons
+        const tagButtons = document.querySelectorAll('.tag-button');
+    
+        // Add event listener to each tag button
+        tagButtons.forEach(tagButton => {
+            tagButton.addEventListener('click', function() {
+                // Remove the 'selected' class from all tag buttons
+                tagButtons.forEach(tb => {
+                    tb.classList.remove('selected');
+                });
+    
+                // Add the 'selected' class to the clicked tag button
+                this.classList.add('selected');
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <%- include('includes/end.ejs') %>
+</body>

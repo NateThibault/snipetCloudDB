@@ -1,0 +1,28 @@
+<%- include('includes/head.ejs') %>
+<link rel="stylesheet" href="/css/post.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <%- include('includes/navigation.ejs') %>
+    <main>
+        <div class="container bg-dark rounded text-center text-white mt-5">
+            <div class="col-md-12">
+                <div class="error-template">
+                    <h1 class="inkFreeFamily font-sizeTitlte">Oops!</h1>
+                    <h2 class="inkFreeFamily font-sizeTitlte">Page 404 - Not Found</h2><br>
+                    <div>
+                        <img src="/images/notFound.gif" class="border border-5 rounded" width="500px" height="300px">
+                    </div><br>    
+                    <div class="error-details">
+                        Désolé, une erreur s'est produite, la page demandée n'a pas été trouvée !
+                    </div><br> 
+                    <div class="error-actions btnScale">
+                        <a href="/" class="btn btn-primary btn-lg mb-4"><span class="glyphicon glyphicon-home"></span> Retourner à l'accueil </a>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<%- include('includes/end.ejs') %>
