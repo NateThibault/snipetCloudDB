@@ -3,9 +3,9 @@ const http = require('http');
 const path = require('path');
 const express = require('express');
 const app = express();
+const cors = require("cors");
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 3000
 require('dotenv').config()
 
 
@@ -30,9 +30,9 @@ const connectDB = async () => {
 const server = http.createServer(app);
 
 connectDB().then(() => {
-  server.listen(PORT, () => {
-    console.log(`Le serveur écoute sur le port ${PORT}`);
-  });
+  server.listen(3000, () => {
+    console.log(`server is running`, "http://localhost:3000");
+  });  
 });
 
 
@@ -54,6 +54,7 @@ app.use(bodyParser.json());
 const routes = require('./routes/routes');
 
 // Utilisation des routes en tant que middleware
+app.use(cors());
 // route /admin
 app.use('/admin', routes.routes);
 // route /
