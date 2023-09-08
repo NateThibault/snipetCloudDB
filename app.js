@@ -14,7 +14,7 @@ mongoose.set('strictQuery', false)
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: 'test', // Remplacez 'nom_de_votre_base_de_données' par le nom de votre base de données
+      dbName: 'test', 
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -24,11 +24,26 @@ const connectDB = async () => {
     process.exit(1);
   } 
 }
-connectDB().then(() =>{
-  app.listen(PORT, () => {
-    console.log(`Le serveur écoute sur le port ${PORT}`);
+const connectDB = async () => {
+  mongoose.connection.on('error', (err) => {
+    console.error('MongoDB connection error:', err);
   });
-})
+
+  mongoose.connection.on('open', () => {
+    console.log('MongoDB connection opened.');
+  });
+
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      dbName: 'your_database_name',
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+  } catch (error) {
+    console.error('MongoDB connection error during initialization:', error);
+    process.exit(1);
+  }
+};
 
 
 
