@@ -24,26 +24,11 @@ const connectDB = async () => {
     process.exit(1);
   } 
 }
-const connectDB = async () => {
-  mongoose.connection.on('error', (err) => {
-    console.error('MongoDB connection error:', err);
+connectDB().then(() =>{
+  app.listen(PORT, () => {
+    console.log(`Le serveur écoute sur le port ${PORT}`);
   });
-
-  mongoose.connection.on('open', () => {
-    console.log('MongoDB connection opened.');
-  });
-
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: 'your_database_name',
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-  } catch (error) {
-    console.error('MongoDB connection error during initialization:', error);
-    process.exit(1);
-  }
-};
+})
 
 
 
