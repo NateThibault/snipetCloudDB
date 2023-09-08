@@ -13,7 +13,11 @@ require('dotenv').config()
 mongoose.set('strictQuery', false)
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      dbName: 'test', // Remplacez 'nom_de_votre_base_de_données' par le nom de votre base de données
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log(`MongoDb est connecter: ${conn.connection.host}`);
   }catch (error){
     console.log(error)
