@@ -57,18 +57,3 @@ app.use((req, res, next) => {
 
 
 
-// const password = process.env.DB_PASSWORD;
-// const encodedPassword = encodeURIComponent(password);
-// const uri = `mongodb+srv://ChipieMaster:${encodedPassword}@cluster0.nw5ggjy.mongodb.net/mydatabase?retryWrites=true&w=majority`;
-
-// // Set up Mongoose connection
-// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-// .then(() => {
-//   console.log('La connexion à la base de données est établie, http://localhost:3000')
-
-//   app.listen(3000, () => {
-//     console.log('Le serveur écoute sur le port 3000');
-//   });
-// })
-//     .catch(err => console.log('Error connecting to MongoDB Atlas:', err.message));
-
