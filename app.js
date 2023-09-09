@@ -1,5 +1,5 @@
 "use strict";
-const http = require('http');
+
 const path = require('path');
 const express = require('express');
 const app = express();
@@ -26,11 +26,8 @@ const connectDB = async () => {
   }
 };
 
-// Integrate MongoDB connection with the HTTP server
-const server = http.createServer(app);
-
 connectDB().then(() => {
-  server.listen(3000, () => {
+  app.listen(3000, () => {
     console.log(`server is running`, "http://localhost:3000");
   });  
 });
